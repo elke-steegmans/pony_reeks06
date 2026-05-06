@@ -12,6 +12,10 @@ public class Pony {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OneToOne
+    @JoinColumn(name = "owner_id")
+    private Owner owner;
+
     @NotBlank(message = "Name may not be empty")
     private String name;
 
@@ -27,6 +31,13 @@ public class Pony {
         this.age = age;
     }
 
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
+    }
     public Long getId() {
         return id;
     }

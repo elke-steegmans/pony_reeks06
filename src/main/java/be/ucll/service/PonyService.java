@@ -1,7 +1,10 @@
 package be.ucll.service;
 
+import be.ucll.model.Owner;
 import be.ucll.model.Pony;
+import be.ucll.repository.OwnerRepository;
 import be.ucll.repository.PonyRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +14,12 @@ import java.util.Optional;
 public class PonyService {
 
     private PonyRepository ponyRepository;
+    private OwnerRepository ownerRepository;
 
-    public PonyService(PonyRepository ponyRepository) {
+    public PonyService(PonyRepository ponyRepository, OwnerRepository ownerRepository) {
         this.ponyRepository = ponyRepository;
+
+        this.ownerRepository = ownerRepository;
     }
 
     public List<Pony> getAllPonies() {
@@ -22,6 +28,13 @@ public class PonyService {
 
     public Optional<Pony> findPonyByName(String ponyName) {
         return ponyRepository.findByName(ponyName);
+    }
+
+    public Pony addOwnerToPony(String ponyName, @Valid Owner owner) {
+        Pony foundPony = ponyRepository.findByName(ponyName).orElseThrow(()->new RuntimeException("Pony not found!"));
+        ownerRepository.save(owner);
+        foundPony.setOwner(owner);
+        return ponyRepository.save(foundPony);
     }
 
 //    public void addPony(Pony pony) {

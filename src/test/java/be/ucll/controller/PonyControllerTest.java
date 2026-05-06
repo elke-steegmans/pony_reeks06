@@ -1,31 +1,39 @@
 package be.ucll.controller;
 
+import be.ucll.repository.DBInitializer;
 import be.ucll.repository.PonyRepository;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebTestClient
+@Sql("classpath:schema.sql")
 public class PonyControllerTest {
 
     private WebTestClient client;
     private PonyRepository ponyRepository;
+    private DBInitializer dbInitializer;
 
     @Autowired
-    public PonyControllerTest(WebTestClient client, PonyRepository ponyRepository) {
+    public PonyControllerTest(WebTestClient client, PonyRepository ponyRepository, DBInitializer dbInitializer) {
         this.client = client;
         this.ponyRepository = ponyRepository;
+        this.dbInitializer = dbInitializer;
     }
 
-    @AfterEach
+//    @AfterEach
+    @BeforeEach
     public void resetRepository () {
-        ponyRepository.reset();
+        dbInitializer.intialize();
+        //ponyRepository.reset();
     }
 
     @Test
