@@ -2,7 +2,6 @@ package be.ucll.controller;
 
 import be.ucll.repository.DBInitializer;
 import be.ucll.repository.PonyRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,7 @@ public class PonyControllerTest {
 //    @AfterEach
     @BeforeEach
     public void resetRepository () {
-        dbInitializer.intialize();
+        dbInitializer.initialize();
         //ponyRepository.reset();
     }
 

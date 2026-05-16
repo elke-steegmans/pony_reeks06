@@ -5,12 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 
 @Entity
-@Table(name = "ponies")
-public class Pony {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+//@Table(name = "ponies")
+@DiscriminatorValue("pony")
+public class Pony extends Animal {
 
     @OneToOne
     @JoinColumn(name = "owner_id")
@@ -37,13 +34,6 @@ public class Pony {
 
     public void setOwner(Owner owner) {
         this.owner = owner;
-    }
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
